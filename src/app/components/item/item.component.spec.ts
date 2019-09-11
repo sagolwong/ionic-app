@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemComponent } from './item.component';
+import { TestUtils } from 'src/testing/test-utils';
 import { TimeAgoPipe } from '../time-ago.pipe';
-import { TestUtils } from '../../../testing/test-utils';
 import { By } from '@angular/platform-browser';
 
 describe('ItemComponent', () => {
@@ -18,8 +18,6 @@ describe('ItemComponent', () => {
         component = compiled.instance;
       });
   }));
-
-
 
   it('should create', () => {
     component.item = {
