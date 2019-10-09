@@ -5,6 +5,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { map, mergeMap, filter, take, skip, withLatestFrom, switchAll } from 'rxjs/operators';
 import { Item } from '../../models/item';
 
+
 export interface Query {
   refresh?: boolean;
   offset: number;
