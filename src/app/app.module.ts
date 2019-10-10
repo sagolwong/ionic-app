@@ -12,17 +12,28 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
 import { TopStoriesModule } from './top-stories/top-stories.module';
+import { reducers } from './reducers';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ItemsEffects } from './effects/items';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     TopStoriesModule,
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      name: 'NgRx HNC DevTools',
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([ItemsEffects]),
   ],
   providers: [
     StatusBar,
@@ -31,4 +42,4 @@ import { TopStoriesModule } from './top-stories/top-stories.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
