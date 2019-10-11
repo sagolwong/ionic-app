@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,EventEmitter, Output  } from '@angular/core';
 import { Item } from 'src/app/models/item';
 
 @Component({
@@ -6,12 +6,16 @@ import { Item } from 'src/app/models/item';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent  {
 
   @Input() item: Item
-  
+  @Output() toOpen = new EventEmitter<string>();
+
+  openPage(url: string) {
+    this.toOpen.emit(url);
+  }
   constructor() { }
 
-  ngOnInit() {}
+ 
 
 }

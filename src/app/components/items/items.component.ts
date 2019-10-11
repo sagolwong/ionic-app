@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Items } from 'src/app/models/items';
 import { Item } from 'src/app/models/item';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-items',
@@ -9,10 +10,14 @@ import { Item } from 'src/app/models/item';
 })
 export class ItemsComponent implements OnInit {
 
-  @Input() items: Item[]
+  @Input() items: Item[];
+  @Output() toOpen = new EventEmitter<string>();
   
   constructor() { }
 
+  openPage(url) {
+    this.toOpen.emit(url);
+  }
   ngOnInit() {}
 
 }
