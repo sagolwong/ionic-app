@@ -3,7 +3,7 @@ import { TopStoriesActions, TopStoriesActionTypes } from '../actions/top-stories
 export interface State {
     ids: number[];
     loading: boolean;
-    error?: any;
+    error: any;
 }
 const initialState: State = {
     ids: [],

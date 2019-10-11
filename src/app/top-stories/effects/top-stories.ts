@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -9,12 +9,13 @@ import * as fromTopStories from '../reducers';
 import { pageSize } from '../reducers/pagination';
 import * as itemActions from '../../actions/items';
 import * as topStoriesActions from '../actions/top-stories';
+import { HACKER_NEWS_DB } from '../../hackernews-db';
 
 @Injectable()
 export class TopStoriesEffects {
     constructor(private actions$: Actions,
         private store: Store<fromTopStories.State>,
-        private db: AngularFireDatabase) { }
+        @Inject(HACKER_NEWS_DB) private db: AngularFireDatabase) { }
     @Effect()
     loadTopStories$: Observable<Action> = this.actions$.pipe(
         ofType(TopStoriesActionTypes.Refresh),
@@ -25,8 +26,7 @@ export class TopStoriesEffects {
                     mergeMap((ids: number[]) => of<Action>(
                         new topStoriesActions.LoadSuccess(ids),
                         new itemActions.Load(ids.slice(0, pageSize)))),
-                    catchError(error => of(new topStoriesActions.
-                        LoadFail(error))),
+                    catchError(error => of(new topStoriesActions.LoadFail(error))),
                 )
         )
     );
@@ -44,8 +44,7 @@ export class TopStoriesEffects {
                     ids,
                 }
             } = state.topStories;
-            return new itemActions.Load(ids.slice(offset,
-                offset + limit));
+            return new itemActions.Load(ids.slice(offset, offset + limit));
         })
     );
 }

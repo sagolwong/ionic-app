@@ -4,7 +4,7 @@ export interface State{
     limit: number
     total: number
 }
-export const pageSize = 10;
+export const pageSize = 20;
 const initialState: State = {
     offset: 0,
     limit: pageSize,
