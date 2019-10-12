@@ -1,6 +1,6 @@
 <ion-card *ngIf="item">
   <div>
-      <h2 class="title" (click)="openPage(item.url)">{{ item.title }}</h2>
+    <h2 class="title" (click)="openPage(item.url)">{{ item.title }}</h2>
     <div>
       <span>
         <ion-icon name="bulb"></ion-icon>
@@ -19,6 +19,14 @@
       <span>
         <ion-icon name="link"></ion-icon>
         {{ item.url }}
+      </span>
+    </div>
+    <div>
+      <span>
+        <ion-button *ngIf="item.kids" [fill]="'clear'" [routerLink]="['/comments', item.id]">
+          <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
+          {{ item.kids.length }}
+        </ion-button>
       </span>
     </div>
   </div>

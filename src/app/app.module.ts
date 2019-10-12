@@ -15,12 +15,13 @@ import { ServicesModule } from './services/services.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TopStoriesModule } from './top-stories/top-stories.module';
-import { reducers } from './reducers';
+import { reducers, CustomRouterStateSerializer } from './reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ItemsEffects } from './effects/items';
 import { HACKER_NEWS_DB } from './hackernews-db';
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,9 @@ import { HACKER_NEWS_DB } from './hackernews-db';
       name: 'NgRx HNC DevTools',
       logOnly: environment.production,
     }),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      }),
     EffectsModule.forRoot([ItemsEffects]),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -44,6 +48,7 @@ import { HACKER_NEWS_DB } from './hackernews-db';
     StatusBar,
     SplashScreen,
     InAppBrowser,
+    {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HACKER_NEWS_DB,

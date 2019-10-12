@@ -3,14 +3,18 @@ import { CommonModule } from '@angular/common';
 import { TimeAgoPipe } from './time-ago.pipe';
 import { ItemComponent } from './item/item.component';
 import { ItemsComponent } from './items/items.component';
+import { CommentComponent } from './comment/comment.component';
+import { CommentsComponent } from './comments/comments.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [ItemComponent, ItemsComponent,TimeAgoPipe],
+  declarations: [ItemComponent, CommentComponent, CommentsComponent, ItemsComponent,TimeAgoPipe],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
   ],
-  exports: [ItemsComponent],
+  exports: [ItemsComponent, CommentsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ComponentsModule { }

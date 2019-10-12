@@ -10,7 +10,7 @@ import { EventEmitter } from '@angular/core';
 })
 export class ItemsComponent implements OnInit {
 
-  @Input() items: Item[];
+  @Input() items: Items;
   @Output() toOpen = new EventEmitter<string>();
   
   constructor() { }
