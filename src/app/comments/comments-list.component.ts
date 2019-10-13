@@ -11,52 +11,52 @@ import { Items } from '../models/items';
 import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-comments-list',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './comments-list.component.html',
-    styleUrls: ['./comments-list.component.scss']
+  selector: 'app-comments-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './comments-list.component.html',
+  styleUrls: ['./comments-list.component.scss']
 })
 export class CommentsListComponent implements OnInit, OnDestroy {
-    items$: Observable<Items>;
-    private itemsLoading$: Observable<boolean>;
-    private infiniteScrollComponent: any;
-    private subscriptions: Subscription[];
+  items$: Observable<Items>;
+  private itemsLoading$: Observable<boolean>;
+  private infiniteScrollComponent: any;
+  private subscriptions: Subscription[];
 
-    constructor(private route: ActivatedRoute,
-        private store: Store<fromComments.State>,
-        private location: Location) {
-        this.items$ = store.pipe(select(fromComments.getSelectedItemChildren));
-        this.itemsLoading$ = store.pipe(select(fromItems.isItemsLoading));
-        this.subscriptions = [];
-    }
+  constructor(private route: ActivatedRoute,
+              private store: Store<fromComments.State>,
+              private location: Location) {
+    this.items$ = store.pipe(select(fromComments.getSelectedItemChildren));
+    this.itemsLoading$ = store.pipe(select(fromItems.isItemsLoading));
+    this.subscriptions = [];
+  }
 
-    ngOnInit() {
-        this.subscriptions.push(this.itemsLoading$.subscribe(loading => {
-            if (!loading) {
-                this.notifyScrollComplete();
-            }
-        }));
-        this.subscriptions.push(this.route.params.pipe(
-            map(params => new commentsActions.Select(parseInt(params.id, 10)))
-        ).subscribe(this.store));
-    }
+  ngOnInit() {
+    this.subscriptions.push(this.itemsLoading$.subscribe(loading => {
+      if (!loading) {
+        this.notifyScrollComplete();
+      }
+    }));
+    this.subscriptions.push(this.route.params.pipe(
+      map(params => new commentsActions.Select(parseInt(params.id, 10)))
+    ).subscribe(this.store));
+  }
 
-    ngOnDestroy(): void {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
-    load(event) {
-        this.infiniteScrollComponent = event.target;
-        this.store.dispatch(new commentsActions.LoadMore());
-    }
+  load(event) {
+    this.infiniteScrollComponent = event.target;
+    this.store.dispatch(new commentsActions.LoadMore());
+  }
 
-    goBack(): void {
-        this.location.back();
-    }
+  goBack(): void {
+    this.location.back();
+  }
 
-    private notifyScrollComplete(): void {
-        if (this.infiniteScrollComponent) {
-            this.infiniteScrollComponent.complete();
-        }
+  private notifyScrollComplete(): void {
+    if (this.infiniteScrollComponent) {
+      this.infiniteScrollComponent.complete();
     }
+  }
 }
