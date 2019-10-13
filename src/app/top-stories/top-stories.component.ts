@@ -3,11 +3,17 @@ import { from, Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Items } from '../models/items';
 import { LoadingController, ToastController } from '@ionic/angular';
+
 import * as fromItems from '../reducers/items';
 import * as fromTopStories from './reducers';
+import * as fromAuth from '../auth/reducers';
 import * as topStoriesActions from './actions/top-stories';
 import { concatMap, filter } from 'rxjs/operators';
 import { OpenPageService } from '../services/open-page/open-page.service';
+import { Logout } from '../auth/actions/auth';
+import { User } from '../models/user';
+import * as gravatar from 'gravatar';
+
 
 @Component({
   selector: 'app-top-stories',
@@ -21,6 +27,8 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
   private itemsLoading$: Observable<boolean>;
   private idsLoading$: Observable<boolean>;
   private errors$: Observable<any>;
+  loggedIn$: Observable<boolean>;
+  user$: Observable<User>;
   private infiniteScrollComponent: any;
   private refresherComponent: any;
   private loading: HTMLIonLoadingElement;
@@ -34,7 +42,9 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
     this.items$ = store.pipe(select(fromTopStories.getDisplayItems));
     this.itemsLoading$ = store.pipe(select(fromItems.isItemsLoading));
     this.idsLoading$ = store.pipe(select(fromTopStories.isTopStoriesLoading));
-    this.errors$ = store.pipe(select(fromTopStories.getError),filter(error => error != null));
+    this.errors$ = store.pipe(select(fromTopStories.getError), filter(error => error != null));
+    this.loggedIn$ = store.pipe(select(fromAuth.getLoggedIn));
+    this.user$ = store.pipe(select(fromAuth.getUser));
     this.subscriptions = [];
   }
   ngOnInit() {
@@ -66,8 +76,12 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
 
   openUrl(url) {
     this.openPageService.open(url);
-    }
-  
+  }
+
+  logout() {
+    this.store.dispatch(new Logout());
+  }
+
   refresh(event) {
     this.refresherComponent = event.target;
     this.doLoad(true);
@@ -119,4 +133,10 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
       showCloseButton: true,
     }).then(toast => toast.present());
   }
+
+  getPhotoURL(user: User) {
+    return user && (user.photoURL || gravatar.url(user.email));
+  }
+
 }
+
