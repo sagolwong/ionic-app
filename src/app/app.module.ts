@@ -14,9 +14,11 @@ import { ServicesModule } from './services/services.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { TopStoriesModule } from './top-stories/top-stories.module';
 import { reducers, CustomRouterStateSerializer } from './reducers';
 import { StoreModule } from '@ngrx/store';
+import { AuthModule } from './auth/auth.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ItemsEffects } from './effects/items';
@@ -31,7 +33,9 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.app_db),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     ServicesModule,
+    AuthModule,
     TopStoriesModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
