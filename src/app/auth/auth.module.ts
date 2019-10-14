@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './effects/auth';
 import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { AuthService } from './services/auth.service';
     EffectsModule.forFeature([AuthEffects]),
   ],
   declarations: [LoginComponent, SignupComponent],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AuthModule { }

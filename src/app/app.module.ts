@@ -15,6 +15,7 @@ import { ServicesModule } from './services/services.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { TopStoriesModule } from './top-stories/top-stories.module';
 import { reducers, CustomRouterStateSerializer } from './reducers';
 import { StoreModule } from '@ngrx/store';
@@ -23,6 +24,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ItemsEffects } from './effects/items';
 import { HACKER_NEWS_DB } from './hackernews-db';
+import { FavoritesModule } from './favorites/favorites.module';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 
 @NgModule({
@@ -34,8 +36,10 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
     AngularFireModule.initializeApp(environment.app_db),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     ServicesModule,
     AuthModule,
+    FavoritesModule,
     TopStoriesModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({

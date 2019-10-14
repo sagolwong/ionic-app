@@ -23,6 +23,11 @@
     </div>
     <div>
       <span>
+        <ion-col>
+          <app-favorite-toggle-container [itemId]="item.id"></app-favorite-toggle-container>
+        </ion-col>
+      </span>
+      <span>
         <ion-button *ngIf="item.kids" [fill]="'clear'" [routerLink]="['/comments', item.id]">
           <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
           {{ item.kids.length }}

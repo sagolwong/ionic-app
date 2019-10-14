@@ -6,6 +6,7 @@ import { ItemsComponent } from './items/items.component';
 import { CommentComponent } from './comment/comment.component';
 import { CommentsComponent } from './comments/comments.component';
 import { RouterModule } from '@angular/router';
+import { FavoritesModule } from '../favorites/favorites.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
+    FavoritesModule,
   ],
   exports: [ItemsComponent, CommentsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
