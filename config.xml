@@ -110,4 +110,5 @@
     <plugin name="cordova-universal-links-plugin" spec="https://github.com/walteram/cordova-universal-links-plugin.git" />
     <plugin name="cordova-plugin-browsertab" spec="0.2.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.1.0" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="5.6.1" />
 </widget>

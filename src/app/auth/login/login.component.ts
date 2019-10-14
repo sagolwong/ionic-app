@@ -3,7 +3,7 @@ import * as fromAuth from '../reducers';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { EmailPasswordPair } from '../../models/user';
-import { Login } from '../actions/auth';
+import { Login, LoginWithProvider } from '../actions/auth';
 import { AuthService, LoginProvider } from '../services/auth.service';
 
 @Component({
@@ -24,5 +24,9 @@ export class LoginComponent {
 
   login(value: EmailPasswordPair) {
     this.store.dispatch(new Login(value));
+  }
+
+  loginWithProvider(provider: LoginProvider) {
+    this.store.dispatch(new LoginWithProvider(provider));
   }
 }

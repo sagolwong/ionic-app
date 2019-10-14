@@ -10,10 +10,11 @@ import * as fromAuth from '../auth/reducers';
 import * as topStoriesActions from './actions/top-stories';
 import { concatMap, filter } from 'rxjs/operators';
 import { OpenPageService } from '../services/open-page/open-page.service';
+import { SocialSharingService } from '../services/social-sharing/social-sharing.service';
 import { Logout } from '../auth/actions/auth';
 import { User } from '../models/user';
 import * as gravatar from 'gravatar';
-
+import { Item } from '../models/item';
 
 @Component({
   selector: 'app-top-stories',
@@ -21,8 +22,8 @@ import * as gravatar from 'gravatar';
   templateUrl: './top-stories.component.html',
   styleUrls: ['./top-stories.component.scss']
 })
-
 export class TopStoriesComponent implements OnInit, OnDestroy {
+
   items$: Observable<Items>;
   private itemsLoading$: Observable<boolean>;
   private idsLoading$: Observable<boolean>;
@@ -34,11 +35,11 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
   private loading: HTMLIonLoadingElement;
   private subscriptions: Subscription[];
 
-  constructor(
-    private openPageService: OpenPageService,
-    private store: Store<fromTopStories.State>,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+  constructor(private openPageService: OpenPageService,
+              private socialSharingService: SocialSharingService,
+              private store: Store<fromTopStories.State>,
+              private loadingCtrl: LoadingController,
+              private toastCtrl: ToastController) {
     this.items$ = store.pipe(select(fromTopStories.getDisplayItems));
     this.itemsLoading$ = store.pipe(select(fromItems.isItemsLoading));
     this.idsLoading$ = store.pipe(select(fromTopStories.isTopStoriesLoading));
@@ -47,6 +48,7 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
     this.user$ = store.pipe(select(fromAuth.getUser));
     this.subscriptions = [];
   }
+
   ngOnInit() {
     this.subscriptions.push(this.itemsLoading$.subscribe(loading => {
       if (!loading) {
@@ -74,17 +76,17 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
     this.doLoad(false);
   }
 
+  refresh(event) {
+    this.refresherComponent = event.target;
+    this.doLoad(true);
+  }
+
   openUrl(url) {
     this.openPageService.open(url);
   }
 
   logout() {
     this.store.dispatch(new Logout());
-  }
-
-  refresh(event) {
-    this.refresherComponent = event.target;
-    this.doLoad(true);
   }
 
   doLoad(refresh: boolean) {
@@ -138,5 +140,7 @@ export class TopStoriesComponent implements OnInit, OnDestroy {
     return user && (user.photoURL || gravatar.url(user.email));
   }
 
+  share(item: Item) {
+    this.socialSharingService.share(item.title, item.url);
+  }
 }
-
